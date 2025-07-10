@@ -10,3 +10,12 @@ grafana:
     annotations:
       cert-manager.io/cluster-issuer: selfsigned
       traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
+
+  grafana.ini:
+    auth.anonymous:
+      enabled: true
+      org_role: Viewer
+    users:
+      allow_sign_up: false
+    server:
+      domain: grafana.local

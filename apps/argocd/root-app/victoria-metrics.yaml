@@ -14,7 +14,7 @@ spec:
       helm:
         releaseName: vm
         valueFiles:
-          - $values/apps/jellyfin/values.yaml
+          - $values/apps/victoria-metrics/values.yaml
     - repoURL: https://github.com/Nasus20202/home-cluster.git
       targetRevision: main
       ref: values
