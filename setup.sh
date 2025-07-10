@@ -28,6 +28,9 @@ echo Installing cert-manager...
 helm upgrade --install cert-manager jetstack/cert-manager -f cert-manager/values.yaml --create-namespace --namespace cert-manager --atomic
 kubectl apply -k cert-manager/clusterissuer
 
+echo Installing VictoriaMetrics...
+helm upgrade --install vm vm/victoria-metrics-k8s-stack -f victoria-metrics/values.yaml --create-namespace --namespace victoria-metrics --atomic
+
 echo Installing Harbor...
 helm upgrade --install harbor harbor/harbor -f harbor/values.yaml --create-namespace --namespace harbor --atomic
 

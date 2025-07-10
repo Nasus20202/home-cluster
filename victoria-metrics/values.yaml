@@ -1,0 +1,12 @@
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.local
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.local
+    annotations:
+      cert-manager.io/cluster-issuer: selfsigned
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
