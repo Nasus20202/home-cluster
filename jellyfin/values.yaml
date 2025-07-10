@@ -5,6 +5,7 @@ ingress:
   enabled: true
   annotations:
     cert-manager.io/cluster-issuer: selfsigned
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
   hosts:
     - host: jellyfin.local
       paths:

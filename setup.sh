@@ -15,6 +15,9 @@ helm repo add jetstack https://charts.jetstack.io
 helm repo add jellyfin https://jellyfin.github.io/jellyfin-helm
 helm repo update
 
+echo Applying traefik configuration...
+kubectl apply -f traefik
+
 echo Installing upgrade-controller...
 kubectl apply -k upgrade-controller
 
