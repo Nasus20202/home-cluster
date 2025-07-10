@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: victoria-metrics
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://victoriametrics.github.io/helm-charts/
+    chart: victoria-metrics-k8s-stack
+    targetRevision: "0.18.7"
+    helm:
+      values: |
+        grafana:
+          ingress:
+            enabled: true
+            hosts:
+              - grafana.local
+            tls:
+              - secretName: grafana-tls
+                hosts:
+                  - grafana.local
+            annotations:
+              cert-manager.io/cluster-issuer: selfsigned-issuer
+              traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: victoria-metrics
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

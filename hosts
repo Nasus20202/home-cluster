@@ -2,3 +2,4 @@
 127.0.0.1   harbor.local
 127.0.0.1   grafana.local
 127.0.0.1   torrent.local
+127.0.0.1   argocd.local

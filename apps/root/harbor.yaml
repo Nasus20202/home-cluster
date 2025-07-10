@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: harbor
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://helm.goharbor.io
+    chart: harbor
+    targetRevision: "1.13.1"
+    helm:
+      values: |
+        expose:
+          ingress:
+            hosts:
+              core: harbor.local
+            annotations:
+              cert-manager.io/cluster-issuer: selfsigned-issuer
+              traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
+        externalURL: https://harbor.local
+        persistence:
+          persistentVolumeClaim:
+            registry:
+              size: 25Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: harbor
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

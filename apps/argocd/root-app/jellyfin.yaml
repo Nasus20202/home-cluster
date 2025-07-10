@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jellyfin
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://jellyfin.github.io/jellyfin-helm
+      chart: jellyfin
+      targetRevision: "2.3.0"
+      helm:
+        valueFiles:
+          - $values/apps/jellyfin/values.yaml
+    - repoURL: https://github.com/Nasus20202/home-cluster.git
+      targetRevision: main
+      ref: values
+  destination:
+    name: in-cluster
+    namespace: jellyfin
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

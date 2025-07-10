@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: victoria-metrics
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://victoriametrics.github.io/helm-charts/
+      chart: victoria-metrics-k8s-stack
+      targetRevision: "0.56.0"
+      helm:
+        releaseName: vm
+        valueFiles:
+          - $values/apps/jellyfin/values.yaml
+    - repoURL: https://github.com/Nasus20202/home-cluster.git
+      targetRevision: main
+      ref: values
+  destination:
+    name: in-cluster
+    namespace: victoria-metrics
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

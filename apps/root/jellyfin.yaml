@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jellyfin
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://jellyfin.github.io/jellyfin-helm
+    chart: jellyfin
+    targetRevision: "1.2.0"
+    helm:
+      values: |
+        jellyfin:
+          enableDLNA: true
+        ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: selfsigned-issuer
+            traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
+          hosts:
+            - host: jellyfin.local
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: jellyfin-tls
+              hosts:
+                - jellyfin.local
+        volumes:
+          - name: videos
+            hostPath:
+              path: /home/nasus/Videos
+              type: Directory
+        volumeMounts:
+          - name: videos
+            mountPath: /media/Videos
+            readOnly: true
+        securityContext:
+          capabilities:
+            add:
+              - "SYS_ADMIN"
+            drop:
+              - "ALL"
+          privileged: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: jellyfin
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
