@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: qbittorrent
-          image: lscr.io/linuxserver/qbittorrent:latest
+          image: lscr.io/linuxserver/qbittorrent:5.1.2
           ports:
             - containerPort: 8080
               name: webui
@@ -25,6 +25,10 @@ spec:
             - containerPort: 6881
               name: torrenting-udp
               protocol: UDP
+          readinessProbe:
+            httpGet:
+              path: /
+              port: webui
           env:
             - name: PUID
               value: "1000"
