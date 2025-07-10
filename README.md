@@ -4,26 +4,21 @@ Localhost home cluster setup using Kubernetes with GitOps via Argo CD.
 
 ## Setup
 
-### Manual Setup (legacy)
+Run the following commands to set up the cluster:
 
-1. Run `./setup.sh`
-2. Run `sudo cat hosts >> /etc/hosts`
-3. Run `./trust-ca.sh`
-
-### GitOps Setup with Argo CD
-
-1. Run `./setup-argocd.sh`
-2. Run `sudo cat hosts >> /etc/hosts`
-3. Run `./trust-ca.sh`
-4. Update Git repository URLs in `argocd/root-app.yaml` and `apps/root/*.yaml` files
-5. Access Argo CD at https://argocd.local to manage applications
+```bash
+cd setup
+./setup-firewall.sh # if you are using firewalld
+./setup.sh
+./trust-ca.sh
+```
 
 ## Apps
 
 | App                        | Description        | URL                                      |
 | -------------------------- | ------------------ | ---------------------------------------- |
 | Argo CD                    | GitOps platform    | [argocd.local](https://argocd.local)     |
-| Jellyfin                   | Media server       | [jellyfin.local](https://jellyfin.local) |
 | Harbor                     | Container registry | [harbor.local](https://harbor.local)     |
-| Victoria Metcics / Grafana | Monitoring         | [grafana.local](https://grafana.local)   |
+| Jellyfin                   | Media server       | [jellyfin.local](https://jellyfin.local) |
 | qBittorrent                | Torrent client     | [torrent.local](https://torrent.local)   |
+| Victoria Metrics / Grafana | Monitoring         | [grafana.local](https://grafana.local)   |
