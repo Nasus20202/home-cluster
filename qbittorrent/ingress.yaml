@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: qbittorrent
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
+spec:
+  tls:
+    - hosts:
+        - torrent.local
+      secretName: qbittorrent-tls
+  rules:
+    - host: torrent.local
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: qbittorrent-webui
+                port:
+                  name: webui

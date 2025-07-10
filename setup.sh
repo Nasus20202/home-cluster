@@ -36,3 +36,7 @@ helm upgrade --install harbor harbor/harbor -f harbor/values.yaml --create-names
 
 echo Installing Jellyfin...
 helm upgrade --install jellyfin jellyfin/jellyfin -f jellyfin/values.yaml  --create-namespace --namespace jellyfin --atomic
+
+echo Installing qBittorrent...
+kubectl create namespace qbittorrent || true
+kubectl apply -f qbittorrent -n qbittorrent

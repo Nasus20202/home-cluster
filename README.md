@@ -10,6 +10,9 @@ Localhost home cluster setup using Kubernetes.
 
 ## Apps
 
-| App      | Description  | URL                                      |
-| -------- | ------------ | ---------------------------------------- |
-| Jellyfin | Media server | [jellyfin.local](https://jellyfin.local) |
+| App                        | Description        | URL                                      |
+| -------------------------- | ------------------ | ---------------------------------------- |
+| Jellyfin                   | Media server       | [jellyfin.local](https://jellyfin.local) |
+| Harbor                     | Container registry | [harbor.local](https://harbor.local)     |
+| Victoria Metcics / Grafana | Monitoring         | [grafana.local](https://grafana.local)   |
+| qBittorrent                | Torrent client     | [torrent.local](https://torrent.local)   |
