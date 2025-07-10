@@ -6,6 +6,7 @@ if [ -f /etc/rancher/k3s/k3s.yaml ]; then
 else
     echo "Installing K3s..."
     curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="644" INSTALL_K3S_EXEC="server" sh -s
+    sudo cp kubelet.conf.d/* /var/lib/rancher/k3s/agent/etc/kubelet.conf.d/
 fi
 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
@@ -23,7 +24,7 @@ kubectl apply -k upgrade-controller
 
 echo Installing cert-manager...
 helm upgrade --install cert-manager jetstack/cert-manager -f cert-manager/values.yaml --create-namespace --namespace cert-manager --atomic
-kubectl apply -f cert-manager/clusterissuer -n cert-manager
+kubectl apply -k cert-manager/clusterissuer
 
 echo Installing Jellyfin...
 helm upgrade --install jellyfin jellyfin/jellyfin -f jellyfin/values.yaml  --create-namespace --namespace jellyfin --atomic
