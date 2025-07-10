@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ -f /etc/rancher/k3s/k3s.yaml ]; then
     echo "K3s is already installed."
@@ -9,5 +10,17 @@ fi
 
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 
-echo "Applying upgrade-controller configuration..."
+echo Updating helm repositories...
+helm repo add jetstack https://charts.jetstack.io
+helm repo add jellyfin https://jellyfin.github.io/jellyfin-helm
+helm repo update
+
+echo Installing upgrade-controller...
 kubectl apply -k upgrade-controller
+
+echo Installing cert-manager...
+helm upgrade --install cert-manager jetstack/cert-manager -f cert-manager/values.yaml --create-namespace --namespace cert-manager --atomic
+kubectl apply -f cert-manager/clusterissuer -n cert-manager
+
+echo Installing Jellyfin...
+helm upgrade --install jellyfin jellyfin/jellyfin -f jellyfin/values.yaml  --create-namespace --namespace jellyfin --atomic
