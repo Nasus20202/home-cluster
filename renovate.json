@@ -17,6 +17,12 @@
     {
       "matchUpdateTypes": ["patch", "minor"],
       "automerge": true
+    },
+    {
+      "matchDatasources": ["kubernetes"],
+      "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
+      "allowedVersions": "!/^20\\.04\\./",
+      "description": "Skip Ubuntu-style version tags like 20.04.x for qBittorrent"
     }
   ],
   "kubernetes": {
