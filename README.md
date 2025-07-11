@@ -11,6 +11,7 @@ cd setup
 ./setup-firewall.sh # if you are using firewalld
 ./setup.sh
 ./trust-ca.sh
+sudo cat hosts >> /etc/hosts
 ```
 
 ## Apps
