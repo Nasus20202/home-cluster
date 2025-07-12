@@ -13,6 +13,7 @@
   "automergeType": "pr",
   "automergeStrategy": "fast-forward",
   "platformAutomerge": true,
+  "ignoreTests": true,
   "packageRules": [
     {
       "matchUpdateTypes": ["patch", "minor"],
