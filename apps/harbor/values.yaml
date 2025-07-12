@@ -1,10 +1,14 @@
 expose:
+  tls:
+    certSource: secret
+    secret:
+      secretName: harbor-tls
   ingress:
-    hosts:
-      core: harbor.local
     annotations:
       cert-manager.io/cluster-issuer: selfsigned
       traefik.ingress.kubernetes.io/router.middlewares: kube-system-tls-redirect@kubernetescrd
+    hosts:
+      core: harbor.local
 
 externalURL: https://harbor.local
 
