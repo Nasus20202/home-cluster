@@ -18,6 +18,10 @@
       "automerge": true
     },
     {
+      "matchDatasources": ["docker"],
+      "versioning": "semver"
+    },
+    {
       "matchDatasources": ["kubernetes"],
       "matchPackageNames": ["lscr.io/linuxserver/qbittorrent"],
       "allowedVersions": "!/^20\\.04\\./",
